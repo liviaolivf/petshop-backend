@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: petshop-postgres
+    environment:
+      POSTGRES_USER: petshop_user
+      POSTGRES_PASSWORD: petshop_password
+      POSTGRES_DB: petshop_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - petshop-db-data:/var/lib/postgresql/data
+    networks:
+      - petshop-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: petshop-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@petshop.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+    ports:
+      - '8080:80'
+    networks:
+      - petshop-network
+
+networks:
+  petshop-network:
+    driver: bridge
+
+volumes:
+  petshop-db-data:
